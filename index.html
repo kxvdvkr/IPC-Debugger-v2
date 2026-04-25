@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPC Debugger Console</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="workspace">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Operating Systems | Interactive Assignment Demo</p>
+          <h1>IPC Debugger Console</h1>
+          <p class="hero-text">
+            A visual debugging tool for pipes, message queues, and shared memory that simulates process communication, detects synchronization failures,
+            and explains root cause in a way that is easy to present.
+          </p>
+        </div>
+
+        <div class="hero-status">
+          <div class="hero-card health-card" aria-label="overall health">
+            <span class="status-dot" id="statusDot"></span>
+            <div>
+              <span class="card-label">System health</span>
+              <strong id="healthScore">92%</strong>
+            </div>
+          </div>
+          <div class="hero-card">
+            <span class="card-label">Current issue</span>
+            <strong id="issueHeadline">Healthy flow</strong>
+          </div>
+          <div class="hero-card">
+            <span class="card-label">Demo mode</span>
+            <strong id="demoScenario">Balanced throughput</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="kpi-strip" aria-label="debugging summary">
+        <article class="kpi-card">
+          <span>Buffer usage</span>
+          <strong id="queueDepth">0 / 6</strong>
+          <small id="bufferTrend">Stable</small>
+        </article>
+        <article class="kpi-card">
+          <span>Wait time</span>
+          <strong id="waitTime">0 ticks</strong>
+          <small id="waitTrend">No blocking</small>
+        </article>
+        <article class="kpi-card">
+          <span>Throughput</span>
+          <strong id="throughput">0 msg</strong>
+          <small id="throughputTrend">Nominal</small>
+        </article>
+        <article class="kpi-card">
+          <span>Synchronization</span>
+          <strong id="riskLevel">Low risk</strong>
+          <small id="syncTrend">Lock order safe</small>
+        </article>
+      </section>
+
+      <section class="toolbar" aria-label="debugger controls">
+        <div class="mode-tabs" role="tablist" aria-label="IPC method">
+          <button class="tab is-active" data-mode="pipe" role="tab" aria-selected="true">Pipe</button>
+          <button class="tab" data-mode="queue" role="tab" aria-selected="false">Message Queue</button>
+          <button class="tab" data-mode="memory" role="tab" aria-selected="false">Shared Memory</button>
+        </div>
+
+        <div class="actions">
+          <button id="playBtn" class="action-button primary" type="button">Run</button>
+          <button id="stepBtn" class="action-button" type="button">Step</button>
+          <button id="resetBtn" class="action-button" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="scenario-row" aria-label="guided scenarios">
+        <button class="scenario-pill is-active" data-scenario="balanced" type="button">Balanced</button>
+        <button class="scenario-pill" data-scenario="surge" type="button">Producer Surge</button>
+        <button class="scenario-pill" data-scenario="starvation" type="button">Consumer Starvation</button>
+        <button class="scenario-pill" data-scenario="deadlock" type="button">Shared Memory Deadlock</button>
+      </section>
+
+      <section class="main-grid">
+        <aside class="panel controls-panel" aria-label="simulation settings">
+          <div class="panel-head">
+            <h2>Simulation Controls</h2>
+            <span id="tickLabel">tick 0</span>
+          </div>
+
+          <label class="slider-field">
+            <div class="field-top">
+              <span>Producer rate</span>
+              <strong id="producerRateText">6 msg/s</strong>
+            </div>
+            <input id="producerRate" type="range" min="1" max="10" value="6">
+          </label>
+
+          <label class="slider-field">
+            <div class="field-top">
+              <span>Consumer rate</span>
+              <strong id="consumerRateText">5 msg/s</strong>
+            </div>
+            <input id="consumerRate" type="range" min="1" max="10" value="5">
+          </label>
+
+          <label class="slider-field">
+            <div class="field-top">
+              <span>Buffer capacity</span>
+              <strong id="capacityText">6 slots</strong>
+            </div>
+            <input id="capacity" type="range" min="2" max="12" value="6">
+          </label>
+
+          <label class="slider-field">
+            <div class="field-top">
+              <span>Lock hold time</span>
+              <strong id="lockHoldText">3 ticks</strong>
+            </div>
+            <input id="lockHold" type="range" min="0" max="10" value="3">
+          </label>
+
+          <div class="toggle-card">
+            <div>
+              <h3>Fault injection</h3>
+              <p>Inject synchronization errors to test robustness checks.</p>
+            </div>
+            <button id="faultToggle" class="switch" type="button" aria-pressed="false"><span></span></button>
+          </div>
+
+          <div class="checklist">
+            <h3>Robustness Engine</h3>
+            <div class="check-item"><span class="check-dot ok"></span><span id="guardBuffer">Buffer overflow guard active</span></div>
+            <div class="check-item"><span class="check-dot ok"></span><span id="guardTimeout">Timeout detection ready</span></div>
+            <div class="check-item"><span class="check-dot ok"></span><span id="guardLock">Lock ownership tracking stable</span></div>
+            <div class="check-item"><span class="check-dot ok"></span><span id="guardFlow">Flow imbalance analyzer active</span></div>
+          </div>
+        </aside>
+
+        <section class="stage-panel">
+          <div class="panel-head">
+            <div>
+              <h2 id="conceptTitle">Pipe Debug View</h2>
+              <p class="subtle" id="conceptBadge">unidirectional stream</p>
+            </div>
+            <div class="incident-chip" id="incidentChip">HEALTHY</div>
+          </div>
+
+          <section class="stage" aria-label="ipc visualization">
+            <div class="process producer" id="producerNode">
+              <div class="node-top">
+                <span class="node-tag">P1</span>
+                <span class="process-role">Producer</span>
+              </div>
+              <strong>Data Source</strong>
+              <p id="producerState">Ready</p>
+            </div>
+
+            <div class="transfer-core">
+              <div class="channel-banner">
+                <span id="channelLabel">Pipe channel</span>
+                <span id="channelNarrative">Data moves in order from writer to reader.</span>
+              </div>
+
+              <div class="pipe-track" id="pipeTrack" aria-label="data transfer lane"></div>
+
+              <div class="flow-stats">
+                <div>
+                  <span>Back-pressure</span>
+                  <strong id="pressureValue">Low</strong>
+                </div>
+                <div>
+                  <span>Delay trend</span>
+                  <strong id="delayValue">0 ticks</strong>
+                </div>
+                <div>
+                  <span>Mutex state</span>
+                  <strong id="lockText">Free</strong>
+                </div>
+              </div>
+
+              <div class="buffer-head">
+                <span>IPC buffer map</span>
+                <strong id="bufferLabel">6 slots</strong>
+              </div>
+              <div class="buffer" id="bufferSlots" aria-label="buffer slots"></div>
+
+              <div class="lock-indicator" id="lockIndicator">
+                <span></span>
+                <strong id="lockIndicatorText">Mutex: Free</strong>
+              </div>
+            </div>
+
+            <div class="process consumer" id="consumerNode">
+              <div class="node-top">
+                <span class="node-tag consumer-tag">P2</span>
+                <span class="process-role">Consumer</span>
+              </div>
+              <strong>Data Sink</strong>
+              <p id="consumerState">Ready</p>
+            </div>
+          </section>
+        </section>
+
+        <aside class="panel inspector" aria-label="diagnostics and explanation">
+          <div class="panel-head">
+            <h2>Incident Analysis</h2>
+            <span id="issueTag">No anomaly</span>
+          </div>
+
+          <div class="analysis-card">
+            <span class="analysis-label">Detected problem</span>
+            <strong id="detectedProblem">Healthy flow</strong>
+            <p id="recommendation">
+              Balanced producer and consumer speeds keep the communication channel healthy.
+            </p>
+          </div>
+
+          <div class="analysis-card accent">
+            <span class="analysis-label">Why it happens</span>
+            <p id="rootCause">
+              The writer and reader are moving at similar speed, so the buffer does not overflow and neither process waits too long.
+            </p>
+          </div>
+
+          <div class="analysis-card">
+            <span class="analysis-label">Suggested fix / demo point</span>
+            <p id="fixAdvice">
+              Mention that the tool can move from normal execution to error simulation without changing screens, making debugging explainable.
+            </p>
+          </div>
+
+          <div class="analysis-card">
+            <span class="analysis-label">Presentation cue</span>
+            <p id="presentationCue">
+              Start with the healthy scenario, then switch to a fault preset to show how the dashboard highlights the exact synchronization issue.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="bottom-grid">
+        <section class="panel timeline-panel">
+          <div class="panel-head">
+            <h2>Live Event Timeline</h2>
+            <span id="demoNote">Explainable step-by-step trace</span>
+          </div>
+          <div id="timeline" class="timeline" aria-live="polite"></div>
+        </section>
+
+        <section class="panel concept-panel">
+          <div class="panel-head">
+            <h2>Mode Explainer</h2>
+            <span id="explainerBadge">demo ready</span>
+          </div>
+          <p id="conceptText">
+            Pipes move bytes in order. The debugger watches whether the writer fills the pipe faster than the reader drains it.
+          </p>
+          <div class="legend">
+            <span><i class="ok"></i>Healthy execution</span>
+            <span><i class="warn"></i>Bottleneck / starvation</span>
+            <span><i class="bad"></i>Deadlock / lock issue</span>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
