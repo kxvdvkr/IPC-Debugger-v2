@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # 🔌 IPC Debugger Console
 
 > A real-time visual debugging tool for **Pipes**, **Message Queues**, and **Shared Memory** — simulates inter-process communication, detects synchronization failures, and explains root cause in plain language.
@@ -257,3 +258,48 @@ Each feature was developed on its own branch and merged into `main` only after m
 ---
 
 *IPC Debugger Console v2.0 — Built for OS Concepts coursework*
+=======
+# IPC Debugger Console
+
+Interactive assignment prototype for:
+
+> Design a debugging tool for inter-process communication methods such as pipes, message queues, and shared memory to help developers identify synchronization and data-sharing issues. Include a GUI to simulate data transfer and highlight potential bottlenecks or deadlocks.
+
+## Run
+
+Open `index.html` in a browser.
+
+## What Makes This Solution Strong
+
+- Simulates three IPC methods: pipe, message queue, and shared memory
+- Visualizes live producer to consumer transfer
+- Shows buffer usage, wait time, throughput, and synchronization risk
+- Detects different classes of issues instead of showing only one error:
+  - healthy flow
+  - bottleneck
+  - starvation
+  - deadlock risk
+- Includes fault injection for robust testing
+- Includes guided scenario presets for easy classroom demonstration
+- Explains root cause and suggested fix, so the UI is not only interactive but also explainable
+
+## Best Demo Flow
+
+1. Start with `Balanced` to show normal IPC behavior.
+2. Switch to `Producer Surge` to show buffer growth and bottleneck detection.
+3. Switch to `Consumer Starvation` to show under-utilization and waiting.
+4. Switch to `Shared Memory Deadlock` to show lock ownership tracking and deadlock warning.
+5. Point out the right-side Incident Analysis panel to explain how the tool identifies the problem and suggests a solution.
+
+## Innovation Angle
+
+This is more than a simulator. It behaves like a mini debugging console:
+
+- it simulates IPC flow,
+- tracks synchronization behavior,
+- identifies the likely problem type,
+- explains why the issue happened,
+- and gives a practical fix suggestion.
+
+That makes it easier to present as an innovative and problem-relevant solution rather than just a UI mockup.
+>>>>>>> Stashed changes
