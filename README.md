@@ -263,4 +263,4 @@ Each feature was developed on its own branch and merged into `main` only after m
 
 ---
 
-*IPC Debugger Console v2.0 — Built for OS Concepts coursework*
+*IPC Debugger Console v2.0 — Built for CSE316 Academic Task-2*
