@@ -599,3 +599,26 @@ syncInputs();
 setMode("pipe");
 addEvent("Debugger console initialized", "ok");
 render();
+
+// Dark mode toggle
+(function () {
+  const darkToggle = document.getElementById("darkToggle");
+  const root = document.documentElement;
+  const saved = localStorage.getItem("ipc-theme");
+  if (saved === "dark") {
+    root.setAttribute("data-theme", "dark");
+    darkToggle.textContent = "🌙";
+  }
+  darkToggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    if (isDark) {
+      root.removeAttribute("data-theme");
+      darkToggle.textContent = "☀️";
+      localStorage.setItem("ipc-theme", "light");
+    } else {
+      root.setAttribute("data-theme", "dark");
+      darkToggle.textContent = "🌙";
+      localStorage.setItem("ipc-theme", "dark");
+    }
+  });
+})();
