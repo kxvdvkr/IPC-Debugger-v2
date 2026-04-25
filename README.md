@@ -2,9 +2,10 @@
 
 > A real-time visual debugging tool for **Pipes**, **Message Queues**, and **Shared Memory** — simulates inter-process communication, detects synchronization failures, and explains root cause.
 
-[![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](#)
-[![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](#)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](#)
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20Site-00d4ff?style=for-the-badge)](https://ipc-debugger.netlify.app/)
+[![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://ipc-debugger.netlify.app/)
+[![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://ipc-debugger.netlify.app/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://ipc-debugger.netlify.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-kxvdvkr-181717?style=flat&logo=github&logoColor=white)](https://github.com/kxvdvkr/IPC-Debugger-v2)
 
 ---
@@ -19,7 +20,13 @@ Built as a project for **Operating Systems (B.Tech CSE)**.
 
 ---
 
-## 🌐 How to Run
+## 🌐 Live Demo
+
+**[https://ipc-debugger.netlify.app/](https://ipc-debugger.netlify.app/)**
+
+---
+
+## 🌐 How to Run locally
 
 ```bash
 # Clone the repository
