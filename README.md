@@ -217,22 +217,6 @@ if (state.mode === "memory" && state.fault && state.lockOwner === "Producer") {
 
 ---
 
-## 🔁 Revision History
-
-| # | Branch | Commit Message |
-|---|--------|----------------|
-| 1 | `feat/html-structure` | feat: scaffold semantic HTML with ARIA roles and all element IDs |
-| 2 | `feat/css-design-system` | feat: add CSS design system — custom properties, grid layout, responsive breakpoints |
-| 3 | `feat/ipc-modes` | feat: implement modes registry and tab switching for Pipe, Queue, Shared Memory |
-| 4 | `feat/simulation-engine` | feat: build credit-accumulator simulation engine with produce/consume/tick loop |
-| 5 | `feat/fault-injection` | feat: add fault injection toggle — scheduling faults and mutex non-release paths |
-| 6 | `feat/scenario-presets` | feat: add four guided scenario presets with one-click parameter loading |
-| 7 | `feat/incident-analysis` | feat: complete incident analysis panel with evaluateIssue classifier and live event timeline |
-
-Each feature was developed on its own branch and merged into `main` only after manual browser testing — `main` is always in a working, demo-ready state.
-
----
-
 ## 🔭 Future Scope
 
 - **WebSocket backend** — replace simulation with a Node.js process spawning real child processes via actual pipes and message queues
