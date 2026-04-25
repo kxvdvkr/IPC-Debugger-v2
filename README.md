@@ -247,12 +247,12 @@ Each feature was developed on its own branch and merged into `main` only after m
 
 ## 👨‍💻 Author
 
-**kxvdvkr**
-Operating Systems CSE316
-B.Tech CSE — Lovely Professional University
-Roll: 06
-Section: 2E048 
-Enrollment: 12406609
+**Keshav Divakar**
+- Operating Systems CSE316
+- B.Tech CSE — Lovely Professional University
+- Roll: 06
+- Section: 2E048 
+- Enrollment: 12406609
 
 ---
 
